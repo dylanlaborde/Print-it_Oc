@@ -19,6 +19,9 @@ const slides = [
 
 const arrows = document.querySelectorAll(".arrow");
 const bulletscontainer = document.querySelector(".dots");
+const carousel = document.querySelector('.banner-img');
+const bannerTagline = document.querySelector('#banner p');
+let active = 0;
 
 function init(){
 	addBulletPoint();
@@ -33,27 +36,41 @@ function addBulletPoint(){
 		bullet.classList.add('dot');
 		bulletscontainer.appendChild(bullet);
 	});
-	updateBulletPoint()
+	updateBulletPoint(0);
 };
 
-function updateBulletPoint() {
+function updateBulletPoint(activeIndex) {
 	const bullets = document.querySelectorAll('.dot');
-	let active =0;
+	active = active + activeIndex;
 	bullets.forEach((dot, i) => {
 		if (i === active) {
 			dot.classList.add('dot_selected');
 			active = i;
+		} else {
+			dot.classList.remove('dot_selected');
 		}
 	})
+	updateSlide();
 }
 
 function getArrow(event) {
+	//console.clear();
 	const clickedArrow = event.target.id;
-	updateSlide(clickedArrow);
+	switch (clickedArrow) {
+		case 'arrow_right':
+			updateBulletPoint(+1);
+			break;
+		case 'arrow_left':
+			updateBulletPoint(-1);
+			break;
+	}
 }
 
-function updateSlide(target){
-	console.log(target);
+function updateSlide() {
+	console.log(carousel);
+	carousel.src = `./assets/images/slideshow/${slides[active].image}`;
+	console.log(bannerTagline);
+	bannerTagline.innerHTML = `${slides[active].tagLine}`;
 }
 
 init();
