@@ -28,6 +28,7 @@ function init(){
 	arrows.forEach(arrow => {
 		arrow.addEventListener('click', getArrow);
 	});
+	updateBulletPoint();
 }
 
 function addBulletPoint(){
@@ -36,43 +37,51 @@ function addBulletPoint(){
 		bullet.classList.add('dot');
 		bulletscontainer.appendChild(bullet);
 	});
-	updateBulletPoint(0);
 };
 
-function updateBulletPoint(activeIndex) {
+function updateBulletPoint() {
+	console.log(active);
 	const bullets = document.querySelectorAll('.dot');
-	active = active + activeIndex;
 	bullets.forEach((dot, i) => {
-		if (i === active) {
-			dot.classList.add('dot_selected');
-			active = i;
-		} else {
-			dot.classList.remove('dot_selected');
-		}
+		dot.classList.toggle('dot_selected', i === active);
 	})
 	updateSlide();
 }
 
 function getArrow(event) {
-	//console.clear();
+	console.clear();
 	const clickedArrow = event.target.id;
 	switch (clickedArrow) {
 		case 'arrow_right':
-			updateBulletPoint(+1);
+			switchDirectionRight();
 			break;
 		case 'arrow_left':
-			updateBulletPoint(-1);
+			switchDirectionLeft();
 			break;
 	}
 }
 
+function switchDirectionRight() {
+	if (active === slides.length - 1) {
+		active = 0;
+	} else {
+		active = active + 1;
+	}
+	updateBulletPoint();
+}
+
+function switchDirectionLeft() {
+	if (active === 0) {
+		active = slides.length - 1;
+	} else {
+		active = active - 1;
+	}
+	updateBulletPoint();
+}
+
 function updateSlide() {
-	console.log(carousel);
 	carousel.src = `./assets/images/slideshow/${slides[active].image}`;
-	console.log(bannerTagline);
 	bannerTagline.innerHTML = `${slides[active].tagLine}`;
 }
 
 init();
-
-
