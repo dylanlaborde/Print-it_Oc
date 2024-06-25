@@ -18,20 +18,44 @@ const slides = [
 ]
 
 const arrows = document.querySelectorAll(".arrow");
+const bulletscontainer = document.querySelector(".dots");
 
-function listen() {
+function init(){
+	addBulletPoint();
 	arrows.forEach(arrow => {
 		arrow.addEventListener('click', getArrow);
 	});
 }
 
-function getArrow(event) {
-	const clickedArrow = event.target.id;
-	console.log(clickedArrow);
+function addBulletPoint(){
+	slides.forEach((slide, i) => {
+		const bullet = document.createElement('span');
+		bullet.classList.add('dot');
+		bulletscontainer.appendChild(bullet);
+	});
+	updateBulletPoint()
+};
+
+function updateBulletPoint() {
+	const bullets = document.querySelectorAll('.dot');
+	let active =0;
+	bullets.forEach((dot, i) => {
+		if (i === active) {
+			dot.classList.add('dot_selected');
+			active = i;
+		}
+	})
 }
 
+function getArrow(event) {
+	const clickedArrow = event.target.id;
+	updateSlide(clickedArrow);
+}
 
-listen();
+function updateSlide(target){
+	console.log(target);
+}
 
+init();
 
 
